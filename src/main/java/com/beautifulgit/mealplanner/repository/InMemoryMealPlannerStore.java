@@ -32,6 +32,13 @@ public class InMemoryMealPlannerStore {
         return new ArrayList<>(recipes.values());
     }
 
+    public synchronized void clear() {
+        recipes.clear();
+        mealPlans.clear();
+        recipeSequence = 1L;
+        mealPlanSequence = 1L;
+    }
+
     public synchronized MealPlanEntry saveMealPlan(MealPlanEntry entry) {
         MealPlanEntry stored = new MealPlanEntry(mealPlanSequence++, entry.date(), entry.mealType(), entry.recipeId(), entry.note());
         mealPlans.put(stored.id(), stored);

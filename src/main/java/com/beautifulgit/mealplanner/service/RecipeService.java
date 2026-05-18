@@ -3,6 +3,7 @@ package com.beautifulgit.mealplanner.service;
 import com.beautifulgit.mealplanner.dto.IngredientDto;
 import com.beautifulgit.mealplanner.dto.RecipeCreateRequest;
 import com.beautifulgit.mealplanner.dto.RecipeResponse;
+import com.beautifulgit.mealplanner.exception.NotFoundException;
 import com.beautifulgit.mealplanner.model.Ingredient;
 import com.beautifulgit.mealplanner.model.Recipe;
 import com.beautifulgit.mealplanner.repository.InMemoryMealPlannerStore;
@@ -37,7 +38,7 @@ public class RecipeService {
     public RecipeResponse findById(Long id) {
         return store.findRecipe(id)
                 .map(this::toResponse)
-                .orElseThrow(() -> new IllegalArgumentException("Recipe not found: " + id));
+                .orElseThrow(() -> new NotFoundException("Recipe not found: " + id));
     }
 
     private Ingredient toIngredient(IngredientDto dto) {
