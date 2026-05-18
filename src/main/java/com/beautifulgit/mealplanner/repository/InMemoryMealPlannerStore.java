@@ -5,12 +5,12 @@ import com.beautifulgit.mealplanner.model.Recipe;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.time.LocalDate;
 
 @Component
 public class InMemoryMealPlannerStore {
@@ -76,5 +76,13 @@ public class InMemoryMealPlannerStore {
 
     public synchronized List<MealPlanEntry> findAllMealPlans() {
         return new ArrayList<>(mealPlans.values());
+    }
+
+    public synchronized List<MealPlanEntry> findMealPlans(LocalDate from, LocalDate to) {
+        return mealPlans.values().stream()
+                .filter(entry -> from == null || !entry.date().isBefore(from))
+                .filter(entry -> to == null || !entry.date().isAfter(to))
+                .sorted((left, right) -> left.date().compareTo(right.date()))
+                .toList();
     }
 }
