@@ -1,17 +1,17 @@
 # Meal Planner
 
-Spring Boot приложение для планирования питания.
+Spring Boot application for meal planning.
 
-## Возможности
+## Features
 
-- CRUD для рецептов через REST
-- создание планов питания по датам
-- in-memory хранилище для быстрого старта
-- валидация входных данных
-- централизованная обработка ошибок
-- seed-данные при запуске
+- CRUD for recipes over REST
+- meal plan creation by date
+- in-memory storage for a fast start
+- input validation
+- centralized error handling
+- seed data on startup
 
-## Основные сущности
+## Core Entities
 
 - `Recipe`
 - `Ingredient`
@@ -26,13 +26,13 @@ Spring Boot приложение для планирования питания.
 - `POST /api/meal-plans`
 - `GET /api/meal-plans`
 
-## Запуск
+## Run
 
 ```bash
 mvn spring-boot:run
 ```
 
-## Тесты
+## Tests
 
 ```bash
 mvn test
