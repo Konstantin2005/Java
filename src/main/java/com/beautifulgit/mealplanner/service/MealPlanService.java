@@ -2,6 +2,7 @@ package com.beautifulgit.mealplanner.service;
 
 import com.beautifulgit.mealplanner.dto.MealPlanCreateRequest;
 import com.beautifulgit.mealplanner.dto.MealPlanResponse;
+import com.beautifulgit.mealplanner.exception.NotFoundException;
 import com.beautifulgit.mealplanner.model.MealPlanEntry;
 import com.beautifulgit.mealplanner.repository.InMemoryMealPlannerStore;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,8 @@ public class MealPlanService {
     }
 
     public MealPlanResponse create(MealPlanCreateRequest request) {
+        store.findRecipe(request.recipeId())
+                .orElseThrow(() -> new NotFoundException("Recipe not found: " + request.recipeId()));
         MealPlanEntry saved = store.saveMealPlan(new MealPlanEntry(
                 null,
                 request.date(),
