@@ -25,6 +25,8 @@ Spring Boot application for meal planning.
 - `GET /api/recipes/{id}`
 - `POST /api/meal-plans`
 - `GET /api/meal-plans`
+- Swagger UI: `/swagger-ui.html`
+- OpenAPI JSON: `/v3/api-docs`
 
 ## Run
 
