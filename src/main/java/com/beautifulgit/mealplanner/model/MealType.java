@@ -1,0 +1,8 @@
+package com.beautifulgit.mealplanner.model;
+
+public enum MealType {
+    BREAKFAST,
+    LUNCH,
+    DINNER,
+    SNACK
+}
