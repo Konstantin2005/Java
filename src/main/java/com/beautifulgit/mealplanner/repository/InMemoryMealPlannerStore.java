@@ -5,10 +5,12 @@ import com.beautifulgit.mealplanner.model.Recipe;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 @Component
 public class InMemoryMealPlannerStore {
@@ -24,12 +26,39 @@ public class InMemoryMealPlannerStore {
         return stored;
     }
 
+    public synchronized Recipe updateRecipe(Long id, Recipe recipe) {
+        Recipe stored = new Recipe(id, recipe.name(), recipe.description(), recipe.calories(), recipe.ingredients(), recipe.mealType());
+        recipes.put(id, stored);
+        return stored;
+    }
+
+    public synchronized void deleteRecipe(Long id) {
+        recipes.remove(id);
+        mealPlans.entrySet().removeIf(entry -> id.equals(entry.getValue().recipeId()));
+    }
+
     public synchronized Optional<Recipe> findRecipe(Long id) {
         return Optional.ofNullable(recipes.get(id));
     }
 
     public synchronized List<Recipe> findAllRecipes() {
         return new ArrayList<>(recipes.values());
+    }
+
+    public synchronized List<Recipe> findRecipes(String query, com.beautifulgit.mealplanner.model.MealType mealType) {
+        Predicate<Recipe> predicate = recipe -> true;
+        if (query != null && !query.isBlank()) {
+            String normalized = query.toLowerCase();
+            predicate = predicate.and(recipe -> recipe.name().toLowerCase().contains(normalized)
+                    || recipe.description().toLowerCase().contains(normalized));
+        }
+        if (mealType != null) {
+            predicate = predicate.and(recipe -> recipe.mealType() == mealType);
+        }
+        return recipes.values().stream()
+                .filter(predicate)
+                .sorted((left, right) -> Long.compare(left.id(), right.id()))
+                .toList();
     }
 
     public synchronized void clear() {
