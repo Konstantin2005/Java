@@ -9,6 +9,7 @@ import com.beautifulgit.mealplanner.service.RecipeService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
 public class SeedDataConfig {
 
     @Bean
+    @Profile("!test")
     CommandLineRunner seedRecipes(RecipeService recipeService, MealPlanService mealPlanService) {
         return args -> {
             var oatmeal = recipeService.create(new RecipeCreateRequest(
