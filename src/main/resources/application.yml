@@ -1,0 +1,13 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+  datasource:
+    url: jdbc:postgresql://localhost:5432/meal_planner
+    username: meal_planner
+    password: meal_planner
+    driver-class-name: org.postgresql.Driver
+
+server:
+  port: 8080
